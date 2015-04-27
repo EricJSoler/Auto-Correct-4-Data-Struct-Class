@@ -20,7 +20,8 @@ namespace WindowsFormsApplication1
             dict.insert("ace");
             dict.insert("hello");
             dict.insert("blah");
-            
+            dict.insert("blood");
+            dict.insert("hell");
         }
 
 

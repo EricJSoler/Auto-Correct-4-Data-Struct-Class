@@ -13,27 +13,27 @@ namespace WindowsFormsApplication1
 
         public Trie()
         {
-            root = new node();
+            root = new Node();
             root.value = '~';
-            root.children = new List<node>();
+            root.children = new List<Node>();
             potentialWord = new List<string>();
         }
 
 
 
 
-        public struct node
+        public struct Node
         {
             public char value;
-            public List<node> children;
+            public List<Node> children;
             public bool flag;
         }
 
 
-        public node start(string recieved)
+        public Node start(string recieved)
         {
             
-            node nextPtr = root;
+            Node nextPtr = root;
             potentialWord.Add(recieved);
             for (int i = 0; i < recieved.Length; i++)
             {
@@ -41,7 +41,7 @@ namespace WindowsFormsApplication1
             }
             if (nextPtr.value == root.value)
             {
-                nextPtr = new node();
+                nextPtr = new Node();
                 nextPtr.value = '!';
             }
             else
@@ -54,7 +54,7 @@ namespace WindowsFormsApplication1
 
         }
 
-        private void printWordsFromHereOn(node startingLocation, int wordLocation)
+        private void printWordsFromHereOn(Node startingLocation, int wordLocation)
         {
             for (int i = 0; i < (startingLocation.children.Count - 1);i++ )
             {
@@ -94,14 +94,14 @@ namespace WindowsFormsApplication1
         //    return new node;
         }
 
-        private void lookForMore(node t)
+        private void lookForMore(Node t)
         {
 
         }
 
-        private node search(node n, char letter)
+        private Node search(Node n, char letter)
         {
-            foreach (node element in n.children)
+            foreach (Node element in n.children)
             {
                 if (element.value == letter)
                 {
@@ -114,7 +114,7 @@ namespace WindowsFormsApplication1
         public void insert(string w)
         {
 
-            node nextPtr = root;
+            Node nextPtr = root;
             for (int i = 0; i < w.Length; i++)
             {
                 bool temp = false;
@@ -125,33 +125,39 @@ namespace WindowsFormsApplication1
             }
         }
 
-        private node insert(ref node n, char letter, bool end)
+        private Node insert(ref Node n, char letter, bool end)
         {
+            
             for (int i = 0; i < n.children.Count; i++)
             {
+
                 if (n.children[i].value == letter)
                 {
                     if (!n.children[i].flag && end)//stupid little work around cuz struct stuff in c#
                     {
-                        node temp = new node();
+                       //n.children[i].flag = end;
+                        Node temp = new Node();
                         temp.children = n.children;
                         temp.value = n.value;
                         temp.flag = end;
-                        n = temp;
+                        n.children.RemoveAt(i);
+                        n.children.Add(temp);
+
                     }
+                   
                     return n.children[i];
                 }
             }
 
-            node newNode = new node();
+            Node newNode = new Node();
             newNode.value = letter;
             newNode.flag = end;
-            newNode.children = new List<node>();
+            newNode.children = new List<Node>();
             n.children.Add(newNode);
             return newNode;
         }
 
-        private node root;
+        private Node root;
 
     }
 }
