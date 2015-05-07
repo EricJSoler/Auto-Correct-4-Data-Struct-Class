@@ -22,12 +22,12 @@ namespace WindowsFormsApplication1
 
 
 
-        public struct node
-        {
-            public char value;
-            public List<node> children;
-            public bool flag;
-        }
+        //public struct node
+        //{
+        //    public char value;
+        //    public List<node> children;
+        //    public bool flag;
+        //}
 
 
         public node start(string recieved)
@@ -46,7 +46,8 @@ namespace WindowsFormsApplication1
             }
             else
             {
-                printWordsFromHereOn(nextPtr, 0);    
+                int start = 0;
+                printWordsFromHereOn(nextPtr, start);    
             }
 
 
@@ -56,26 +57,28 @@ namespace WindowsFormsApplication1
 
         private void printWordsFromHereOn(node startingLocation, int wordLocation)
         {
+            
             for (int i = 0; i < (startingLocation.children.Count - 1);i++ )
             {
                 potentialWord.Add(potentialWord[wordLocation]);
             }
-
+            //bool newWord = false;
                 for (int i = 0, k= 0; i < startingLocation.children.Count; i++, k++)
                 {
-                    if (!(startingLocation.flag))
+                    potentialWord[wordLocation + k] += startingLocation.children[i].value;
+                    if (startingLocation.children[i].flag && startingLocation.children[i].children.Count > 0)
                     {
-                        potentialWord[wordLocation + k] += startingLocation.children[i].value;//
-                        printWordsFromHereOn(startingLocation.children[i], wordLocation + k);//testing this with ks
+                        potentialWord.Add(potentialWord[wordLocation + k]);
+                        //newWord = true;
+                        
+                        printWordsFromHereOn(startingLocation.children[i], wordLocation + k);
                     }
                     else
                     {
-                        potentialWord.Add(potentialWord[wordLocation + k]);
-                        k++;
-                        potentialWord[wordLocation + k] += startingLocation.children[i].value;
-                        printWordsFromHereOn(startingLocation.children[i], wordLocation + k);
-                        Console.WriteLine("blah");
+                        wordLocation += k;
+                        printWordsFromHereOn(startingLocation.children[i], wordLocation);
                     }
+
                 }
             //foreach (node element in startingLocation.children)
             //{
@@ -131,13 +134,15 @@ namespace WindowsFormsApplication1
             {
                 if (n.children[i].value == letter)
                 {
-                    if (!n.children[i].flag && end)//stupid little work around cuz struct stuff in c#
+                    if (!(n.children[i].flag) && end)//stupid little work around cuz struct stuff in c#
                     {
-                        node temp = new node();
-                        temp.children = n.children;
-                        temp.value = n.value;
-                        temp.flag = end;
-                        n = temp;
+                        n.children[i].flag = end;
+                        //node temp = new node();
+                        //temp.children = n.children;
+                        //temp.value = n.value;
+                        //temp.flag = end;
+                        //n.children.RemoveAt(i);
+                        //n.children.Add(temp);
                     }
                     return n.children[i];
                 }

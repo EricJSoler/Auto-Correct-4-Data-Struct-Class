@@ -16,10 +16,17 @@ namespace WindowsFormsApplication1
         {
             InitializeComponent();
             dict = new Trie();
-            dict.insert("act");
-            dict.insert("ace");
+            dict.insert("hell");
             dict.insert("hello");
-            dict.insert("blah");
+            dict.insert("help");
+            dict.insert("hat");
+            //dict.insert("heart");
+            dict.insert("cat");
+            dict.insert("cap");
+            dict.insert("cater");
+            dict.insert("caters");
+            dict.insert("cool");
+            
             
         }
 
@@ -28,15 +35,14 @@ namespace WindowsFormsApplication1
         {
             TextBox tbox = (TextBox)sender;
             String text = tbox.Text;
-            if (text.Length >= 2)
-
-                       
-
-            Console.WriteLine("we here");
-            dict.start(text);
-            List<string> yourMother = dict.potentialWord;
-            Console.WriteLine("we here");
-            dict.potentialWord.Clear();
+            if (text.Length >= 1)
+            {
+                Console.WriteLine("we here");
+                dict.start(text);
+                List<string> yourMother = dict.potentialWord;
+                Console.WriteLine("we here");
+                dict.potentialWord.Clear();
+            }
         }
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
